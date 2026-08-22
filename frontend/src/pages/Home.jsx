@@ -29,14 +29,6 @@ function Home() {
         // console.log(token)
     }
 
-    const handleLogout = async () => {
-        try {
-            await api.get("/auth/logout")
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     return (
         <div className='h-screen flex bg-[#0d0f14] text-white overflow-hidden'>
             <Sidebar />
@@ -44,7 +36,7 @@ function Home() {
             <Artifect />
             {!userData && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-                    <div className="w-[340px] bg-[#13151c] border border-white/1 rounded-2xl p-7 flex flex-col gap-5 ">
+                    <div className="w-85 bg-[#13151c] border border-white/1 rounded-2xl p-7 flex flex-col gap-5 ">
                         <div className="flex flex-col gap-1">
                             <h2 className="text-base font-semibold text-slate-100 tracking-tight">Welcome to CortexAI</h2>
                             <p className="text-xs text-slate-500">Plase login to continue using the app.</p>
@@ -52,7 +44,6 @@ function Home() {
                         <button className='flex items-center justify-center gap-3 w-full py-4 rounded-xl text-sm font-bold bg-white text-black transition-all duration-150 cursor-pointer' onClick={signInWithGoogle}>
                             <FcGoogle size={15} /> Continue With Google
                         </button>
-                        <button className="w-full py-4 rounded-xl text-sm font-bold bg-white/90 text-black transition-all duration-150 cursor-pointer" onClick={handleLogout}>Logout</button>
                     </div>
                 </div>
             )}

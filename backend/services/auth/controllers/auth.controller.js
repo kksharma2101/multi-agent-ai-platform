@@ -6,8 +6,13 @@ import redis from "../../../shared/redis/redis.js";
 export const login = async (req, res) => {
     try {
         const { token } = req.body;
+
         const decodedToken = await getAuth(app).verifyIdToken(token);
-        let user = await User.findOne({ firebaseUid: decodedToken.uid });
+
+        let user = await User.findOne({
+            firebaseUid: decodedToken.uid
+        });
+
         if (!user) {
             user = await User.create({
                 firebaseUid: decodedToken.uid,
@@ -15,25 +20,47 @@ export const login = async (req, res) => {
                 email: decodedToken.email,
                 avatar: decodedToken.picture
             });
-            await user.save();
+
         }
 
         const sessionId = crypto.randomUUID();
 
-        await redis.set(`session-${sessionId}`, JSON.stringify({
-            userId: user._id,
-            name: user.name,
-            email: user.email,
-            avatar: user.avatar
-        }), "EX", 7 * 24 * 60 * 60)
+        await redis.set(
+            `session-${sessionId}`,
+            JSON.stringify({
+                userId: user._id,
+                name: user.name,
+                email: user.email,
+                avatar: user.avatar
+            }),
+            "EX",
+            7 * 24 * 60 * 60
+        );
 
-        res.cookie("session", sessionId, { httpOnly: true, secure: true, sameSite: "strict", maxAge: 7 * 24 * 60 * 60 * 1000 });
-        res.status(200).json({ message: "Login successfully", user });
+        res.cookie("session", sessionId, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production"
+                ? "none"
+                : "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
+
+
+        return res.status(200).json({
+            success: true,
+            user
+        });
+
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Login server error" });
+        console.error("LOGIN ERROR:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Login server error"
+        });
     }
-}
+};
 
 export const logout = async (req, res) => {
     try {

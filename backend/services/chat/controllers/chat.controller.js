@@ -17,7 +17,9 @@ export const createConversation = async (req, res) => {
 export const getConversations = async (req, res) => {
     try {
         const userId = req.headers['x-user-id'];
-        const conversations = (await Conversation.find({ userId: userId })).sort({ updatedAt: -1 });
+
+        const conversations = await Conversation.find({ userId: userId }).sort({ updatedAt: -1 });
+
         return res.status(200).json(conversations);
     } catch (error) {
         return res.status(500).json({ message: "Error in getting chat conversations" })
