@@ -3,7 +3,8 @@ import { MessageSquare } from "lucide-react";
 
 const ChatNavbar = () => {
     const { selectedConversation } = useSelector(state => state.conversation)
-    const { message } = useSelector(state => state.messages)
+    const { messages } = useSelector(state => state.messages)
+
     return (
         <>
             {
@@ -18,7 +19,7 @@ const ChatNavbar = () => {
                         }
                     </div>
                     <div className="text-xs font-medium text-slate-600 bg-white/6 border border-white/6 px-2 py-0.5 rounded-full">
-                        {message?.length || 0} Messages
+                        {messages?.length || 0} Messages
                     </div>
                 </div>
             }

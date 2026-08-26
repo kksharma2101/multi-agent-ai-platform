@@ -89,7 +89,7 @@ const Sidebar = () => {
                     </div>
                     <span className="text-base font-semibold text-slate-100 tracking-tight flex-1">CotexAI</span>
                     <span className="text-xs font-medium text-indigo-400 bg-indigo-500 border border-indigo-500/20 px-2 py-0.5 rounded-full tracking-wide w-fit text-center">Free</span>
-                    <button className="flex items-center justify-center w-7 h-7 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/0.05 transition-colors duration-150 bg-transparent border-none cursor-pointer" onClick={handleCreateConv}>
+                    <button className="flex items-center justify-center w-7 h-7 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/0.05 transition-colors duration-150 bg-transparent border-none cursor-pointer" onClick={handleCreateConv} title='New Chat'>
                         <PenSquare size={14} />
                     </button>
                 </div>
@@ -147,7 +147,7 @@ const Sidebar = () => {
                                 <div className="flex gap-1">
                                     <button className="flex justify-center items-center w-7 h-7 rounded-md border-none bg-transparent text-yellow-600 cursor-pointer hover:bg-white/6 hover:text-slate-400 transition-all duration-150">
                                         <Coins size={15} /></button>
-                                    <button className="flex justify-center items-center w-7 h-7 rounded-md border-none bg-transparent text-slate-600 cursor-pointer hover:bg-white/6 hover:text-slate-400 transition-all duration-150" onClick={handleLogout}>
+                                    <button className="flex justify-center items-center w-7 h-7 rounded-md border-none bg-transparent text-slate-600 cursor-pointer hover:bg-white/6 hover:text-slate-400 transition-all duration-150" onClick={handleLogout} title='Logout'>
                                         <LogOut size={16} />
                                     </button>
                                 </div>
