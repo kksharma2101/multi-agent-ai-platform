@@ -1,7 +1,11 @@
+import { AIMessage, HumanMessage, SystemMessage } from "@langchain/core/messages";
 import { getModel } from "../config/llmModels.js"
+import { getMemory } from "../utils/memory.js";
 
 export const chatAgent = async (state) => {
     const llm = await getModel("chat");
+    const mesHistory = await getMemory(state.conversationId);
+
     const systemPrompt = `You are CortexAI, an intelligent AI assistant.
 
     rules: 
@@ -20,16 +24,19 @@ export const chatAgent = async (state) => {
     - Never generate large walls of text.
     `;
 
-    const response = await llm.invoke([
-        {
-            "role": "system",
-            "content": systemPrompt
-        },
-        {
-            "role": "human",
-            "content": state.prompt
+    const messages = [new SystemMessage(systemPrompt)];
+
+    mesHistory.forEach(msg => {
+        if (msg.role === "user") {
+            messages.push(new HumanMessage(msg.content))
+        } else {
+            messages.push(new AIMessage(msg.content))
         }
-    ])
+    });
+
+    messages.push(new HumanMessage(state.prompt))
+
+    const response = await llm.invoke(messages)
     {
         return { ...state, aiResponse: response.content }
     }

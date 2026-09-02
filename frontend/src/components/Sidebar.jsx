@@ -28,8 +28,8 @@ const Sidebar = () => {
         dispatch(addConversation(data))
     };
 
-    const handleSelectedConv = (id) => {
-        dispatch(setSelectedConversation(id))
+    const handleSelectedConv = (conv) => {
+        dispatch(setSelectedConversation(conv))
     };
 
     const handleLogout = async () => {
@@ -54,9 +54,9 @@ const Sidebar = () => {
                 <div className="flex-1 overflow-y-auto px-2 pb-2 scrollbar-none [&::-webkit-scrollbar]:hidden space-y-2 pt-6">
                     {
                         conversations.map((conv, i) => {
-                            const isActive = selectedConversation == conv?._id;
+                            const isActive = selectedConversation?._id == conv?._id;
                             return (
-                                <div className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/6 transition-colors duration-150 bg-transparent border-none cursor-pointer" key={conv._id || i} onClick={() => handleSelectedConv(conv?._id)}>
+                                <div className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/6 transition-colors duration-150 bg-transparent border-none cursor-pointer" key={conv._id || i} onClick={() => handleSelectedConv(conv)}>
                                     <MessageSquare size={16} color={isActive ? "white" : "gray"} />
                                 </div>
                             )
@@ -110,9 +110,9 @@ const Sidebar = () => {
                 <div className="flex-1 overflow-y-auto px-2 pb-2 scrollbar-none [&::-webkit-scrollbar]:hidden space-y-2">
                     {
                         conversations.map((conv, i) => {
-                            const isActive = selectedConversation == conv?._id;
+                            const isActive = selectedConversation?._id == conv?._id;
                             return (
-                                <div className={`${isActive && "bg-indigo-400"} p-2 cursor-pointer hover:bg-indigo-400 rounded-md flex justify-start gap-2 items-center`} key={conv._id || i} onClick={() => handleSelectedConv(conv?._id)}>
+                                <div className={`${isActive && "bg-indigo-400"} p-2 cursor-pointer hover:bg-indigo-400 rounded-md flex justify-start gap-2 items-center`} key={conv._id || i} onClick={() => handleSelectedConv(conv)}>
                                     <MessageSquare size={12} className='text-indigo-500' />
                                     <span className='truncate'>{conv.title}</span>
                                 </div>
