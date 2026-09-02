@@ -5,13 +5,13 @@ import redis from "../../../shared/redis/redis.js";
 
 export const agent = async (req, res) => {
     try {
-        const { prompt, conversationId } = req.body;
+        const { prompt, conversationId, agent } = req.body;
 
         await axios.post(`${process.env.CHAT_SERVICE_URL}/create-message`, {
             role: "user", conversationId, content: prompt
         })
 
-        const result = await graph.invoke({ prompt, conversationId })
+        const result = await graph.invoke({ prompt, conversationId, agent })
 
         const response = result.aiResponse;
 
@@ -23,7 +23,7 @@ export const agent = async (req, res) => {
             role: "assistant", conversationId, content: response
         })
 
-        return res.status(200).json(response)
+        return res.status(200).json({ answer: response, images: result.images })
 
     } catch (error) {
         return res.status(500).json({ message: "server error in agent" })

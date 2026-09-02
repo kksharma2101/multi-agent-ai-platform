@@ -18,8 +18,8 @@ export const conversationSlice = createSlice({
         },
         setConversationTitle: (state, action) => {
             const { conversationId, title } = action.payload;
-            state.conversations.map((conv) => (
-                conv?._id == conversationId ? ({ ...conv, title }) : conv
+            state.conversations = state.conversations.map((conv) => (
+                conv?._id == conversationId ? { ...conv, title } : conv
             ))
 
             // const conversation = state.conversations.find(

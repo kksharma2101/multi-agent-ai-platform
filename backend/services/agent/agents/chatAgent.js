@@ -6,7 +6,16 @@ export const chatAgent = async (state) => {
     const llm = await getModel("chat");
     const mesHistory = await getMemory(state.conversationId);
 
+    const searchContext = state.searchResults && state.searchResults.length > 0 ? `Search results: ${JSON.stringify(state.searchResults)} Answer the user using only the above search results` : "";
+
     const systemPrompt = `You are CortexAI, an intelligent AI assistant.
+
+    ${searchContext}
+
+    if searchContext exists:
+
+    - Use search results to answer.
+    - Do not mention internal tools.
 
     rules: 
     - For simple questions, greetings and short queries, respond naturally in plain text.

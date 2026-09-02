@@ -47,7 +47,7 @@ const Sidebar = () => {
                 <button className="flex items-center justify-center w-10 h-10 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/6 transition-colors duration-150 bg-transparent border-none cursor-pointer mb-1" onClick={() => setCollapsed(false)}>
                     <PanelRight />
                 </button>
-                <button className="flex items-center justify-center w-10 h-10 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/6 transition-colors duration-150 bg-transparent border-none cursor-pointer" onClick={handleCreateConv}>
+                <button className="flex items-center justify-center w-10 h-10 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/6 transition-colors duration-150 bg-transparent border-none cursor-pointer" onClick={() => dispatch(setSelectedConversation(null))}>
                     <Plus size={16} />
                 </button>
 
@@ -89,13 +89,13 @@ const Sidebar = () => {
                     </div>
                     <span className="text-base font-semibold text-slate-100 tracking-tight flex-1">CotexAI</span>
                     <span className="text-xs font-medium text-indigo-400 bg-indigo-500 border border-indigo-500/20 px-2 py-0.5 rounded-full tracking-wide w-fit text-center">Free</span>
-                    <button className="flex items-center justify-center w-7 h-7 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/0.05 transition-colors duration-150 bg-transparent border-none cursor-pointer" onClick={handleCreateConv} title='New Chat'>
+                    <button className="flex items-center justify-center w-7 h-7 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-white/0.05 transition-colors duration-150 bg-transparent border-none cursor-pointer" onClick={() => dispatch(setSelectedConversation(null))} title='New Chat'>
                         <PenSquare size={14} />
                     </button>
                 </div>
 
                 <div className="px-4 pt-4 pb-1">
-                    <button className="bg-blue-600 w-full flex items-center justify-center rounded-md py-2 gap-2 cursor-pointer" onClick={handleCreateConv}>
+                    <button className="bg-blue-600 w-full flex items-center justify-center rounded-md py-2 gap-2 cursor-pointer" onClick={() => dispatch(setSelectedConversation(null))}>
                         <Plus /> New Chat
                     </button>
                 </div>

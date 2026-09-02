@@ -4,7 +4,7 @@ import { Message } from "../models/message.model.js";
 export const createConversation = async (req, res) => {
     try {
         const userId = req.headers['x-user-id'];
-        
+
         const conversation = await Conversation.create({
             userId: userId
         })
@@ -29,12 +29,42 @@ export const getConversations = async (req, res) => {
 export const updateConversation = async (req, res) => {
     try {
         const { id, title } = req.body;
-        const conversation = (await Conversation.findByIdAndUpdate(id, { title }));
-        return res.status(200).json(conversation);
+        if (!id || !title?.trim()) {
+            return res.status(400).json({
+                message: "Conversation ID and title are required",
+            });
+        }
+
+        const conversation = await Conversation.findByIdAndUpdate(
+            id,
+            {
+                title: title.trim(),
+            },
+            {
+                returnDocument: "after",
+                runValidators: true,
+            }
+        );
+
+        if (!conversation) {
+            return res.status(404).json({
+                message: "Conversation not found",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            conversation,
+        });
     } catch (error) {
-        return res.status(500).json({ message: "Error in getting chat conversations" })
+        console.error("Error updating conversation:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Error in updating chat title",
+        });
     }
-}
+};
 
 export const saveMessage = async (req, res) => {
     try {
